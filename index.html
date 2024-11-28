@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viajens Las Vegas</title>
+    <!-- Importando Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Estilos */
+
+        :root {
+            --primary-color: #ff4081; /* Rosa Neon */
+            --secondary-color: #00e5ff; /* Azul Neon */
+            --background-color: #121212; /* Fundo Escuro */
+            --text-color: #ffffff; /* Texto Branco */
+            --accent-color: #ffeb3b; /* Amarelo Vibrante */
+            --font-header: 'Montserrat', sans-serif;
+            --font-body: 'Open Sans', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-body);
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            scroll-behavior: smooth;
+            color: var(--text-color);
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-header);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        select,
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid var(--secondary-color);
+            border-radius: 5px;
+            background-color: #1e1e1e;
+            color: var(--text-color);
+            font-family: var(--font-body);
+        }
+
+        select:focus,
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 5px var(--primary-color);
+        }
+
+        button {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: var(--text-color);
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+            font-weight: bold;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(255, 64, 129, 0.4);
+        }
+
+        #resultado, #compra {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+        }
+
+        .hidden {
+            display: none;
+            color: var(--text-color);
+        }
+
+        #mensagem-compra {
+            margin-top: 15px;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        /* Header e Navegação */
+        header {
+            background-color: #1e1e1e;
+            color: var(--text-color);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+
+        header h1 {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 800px;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 600;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        nav ul li a::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s;
+            margin: auto;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        /* Seção Hero */
+        .hero {
+            background-image: url('pexels-sanaan-3116970.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 80px; /* Espaço para o header fixo */
+            position: relative;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .hero h1 {
+            position: relative;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 2rem;
+            color: var(--text-color);
+            backdrop-filter: blur(5px);
+        }
+
+        /* Container Principal */
+        .container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+
+        section {
+            margin-bottom: 60px;
+        }
+
+        /* Cartões */
+        .card {
+            background-color: #1e1e1e;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.9);
+        }
+
+        .card img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .card img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Carousel */
+        .carousel-container {
+            width: 100%;
+            margin: 20px auto;
+            position: relative;
+        }
+
+        .carousel {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        .carousel .item {
+            display: none;
+            width: 100%;
+            transition: opacity 0.5s ease-in-out;
+            position: relative;
+            
+        }
+
+        .carousel .item.active {
+            display: block;
+        }
+
+        .carousel img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .carousel .caption {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.6);
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: var(--text-color);
+            font-size: 0.9rem;
+           
+        }
+
+        .btn.prev,
+        .btn.next {
+            position: absolute;
+            top: 838px;
+            transform: translateY(-50%);
+            background-color: rgba(255, 64, 129, 0.8);
+            border: none;
+            color: var(--text-color);
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn.prev:hover,
+        .btn.next:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .btn.prev {
+            left: 10px;
+        }
+
+        .btn.next {
+            right: 10px;
+        }
+
+        .dots {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+            gap: 10px;
+        }
+
+        .dot {
+            height: 12px;
+            width: 12px;
+            background-color: var(--secondary-color);
+            border-radius: 50%;
+            display: inline-block;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .dot.active,
+        .dot:hover {
+            background-color: var(--primary-color);
+        }
+
+        /* Formulários */
+        form {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Rodapé */
+        footer {
+            background-color: #1e1e1e;
+            color: var(--text-color);
+            text-align: center;
+            padding: 20px 0;
+            border-top: 1px solid #333;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.5rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav ul li {
+                margin: 10px 0;
+            }
+
+            .hero {
+                height: 250px;
+            }
+
+            .hero h1 {
+                font-size: 1.5rem;
+                padding: 15px;
+            }
+
+            section h2 {
+                font-size: 1.8rem;
+            }
+
+            .card {
+                padding: 15px;
+            }
+
+            button {
+                width: 100%;
+            }
+
+            .carousel .caption {
+                font-size: 0.8rem;
+            }
+
+            .btn.prev,
+            .btn.next {
+                padding: 8px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Cabeçalho e Navegação -->
+    <header>
+        <h1>Viajens Las Vegas</h1>
+        <nav>
+            <ul>
+                <li><a href="#inicio">Início</a></li>
+                <li><a href="#sobre">Sobre Nós</a></li>
+                <li><a href="#servicos">Serviços</a></li>
+                <li><a href="#lasvegas">Las Vegas</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Seção Hero -->
+    <div class="hero" id="inicio">
+        <h1>Descubra Las Vegas com a Melhor Agência de Viagens</h1>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <div class="container">
+
+        <!-- Seção Bem-vindo -->
+        <section>
+            <h2>Bem-vindo à Viajens Las Vegas</h2>
+            <p>Somos especializados em criar experiências inesquecíveis na cidade mais vibrante do mundo: Las Vegas. De hotéis luxuosos a entretenimento de primeira classe, cuidamos de todos os detalhes para que sua viagem seja perfeita.</p>
+        </section>
+
+        <!-- Seção Nossos Destinos -->
+        <section>
+            <h2>Nossos Destinos</h2>
+            <main class="carousel-container">
+                <div class="carousel">
+                    <div class="item active">
+                        <img src="3a0bec34-c226-4be2-9b32-54da6ffaa6a5.jpeg" alt="Image 1">
+                        <p class="caption"></p>
+                    </div>
+                    <div class="item">
+                        <img src="d746dfa1-4019-4325-8eae-c54603d1f605.jpeg" alt="Image 2">
+                        <p class="caption"></p>
+                    </div>
+                    <div class="item">
+                        <img src="f727f597-13ed-4364-a244-05e4d75cea85.jpeg" alt="Image 3">
+                        <p class="caption"></p>
+                    </div>
+                </div>
+                <div>
+                <button class="btn prev"></button>
+                <button class="btn next"></button>
+                
+                <div class="dots"></div>
+            </main>
+        </section>
+
+        <!-- Seção Sobre Nós -->
+        <section id="sobre">
+            <h2>Sobre Nós</h2>
+            <div class="card">
+                <h3>Quem Somos</h3>
+                <p>A Viajens Las Vegas é uma agência de viagens dedicada a proporcionar as melhores experiências em Las Vegas. Com anos de experiência no mercado, nossa equipe é especializada em criar roteiros personalizados que atendem às suas necessidades e desejos.</p>
+            </div>
+            <div class="card">
+                <h3>Nossa Missão</h3>
+                <p>Oferecer viagens de alta qualidade, garantindo a satisfação total de nossos clientes através de serviços excepcionais e atenção aos detalhes.</p>
+            </div>
+            <div class="card">
+                <h3>Nossa Equipe</h3>
+                <p>Contamos com uma equipe de profissionais apaixonados por viagens e comprometidos em transformar seus sonhos em realidade.</p>
+            </div>
+        </section>
+
+        <!-- Seção Serviços -->
+        <section id="servicos">
+            <h2>Nossos Serviços</h2>
+            <div class="card">
+                <h3>Pacotes de Viagem Personalizados</h3>
+                <p>Criamos roteiros sob medida para atender às suas preferências e orçamento.</p>
+            </div>
+            <div class="card">
+                <h3>Reservas de Hotéis</h3>
+                <p>Parcerias com os melhores hotéis de Las Vegas para garantir conforto e luxo.</p>
+            </div>
+            <div class="card">
+                <h3>Transporte</h3>
+                <p>Oferecemos opções de transporte terrestre e aéreo para facilitar sua locomoção.</p>
+            </div>
+            <div class="card">
+                <h3>Ingressos para Shows e Eventos</h3>
+                <p>Adquira ingressos exclusivos para os principais shows e eventos de Las Vegas.</p>
+            </div>
+            <div class="card">
+                <h3>Assistência 24/7</h3>
+                <p>Suporte contínuo durante toda a sua viagem para garantir tranquilidade.</p>
+            </div>
+        </section>
+
+        <!-- Seção Las Vegas -->
+        <section id="lasvegas">
+            <h2>Descubra Las Vegas</h2>
+            <div class="card">
+                <h3>O The Strip</h3>
+                <img src="pexels-akio-1011056.jpg" alt="The Strip">
+                <p>O coração pulsante de Las Vegas, repleto de hotéis temáticos, cassinos e atrações de entretenimento.</p>
+            </div>
+            <div class="card">
+                <h3>Fremont Street Experience</h3>
+                <img src="pexels-nealsmithphotos-12510549.jpg" alt="Fremont Street">
+                <p>Uma área histórica com um vibrante mercado de luzes, música ao vivo e uma atmosfera única.</p>
+            </div>
+            <div class="card">
+                <h3>Shows e Entretenimento</h3>
+                <img src="pexels-cheyenne-shotton-50308-186176.jpg" alt="Shows Las Vegas">
+                <p>Assista a performances de artistas renomados, mágicos e espetáculos impressionantes.</p>
+            </div>
+            <div class="card">
+                <h3>Gastronomia</h3>
+                <img src="restaurantes-las-vegas.png" alt="Gastronomia Las Vegas">
+                <p>Desfrute de uma variedade de restaurantes que oferecem desde cozinha internacional até especialidades locais.</p>
+            </div>
+        </section>
+
+        <!-- Seção Contato -->
+        <section id="contato">
+            <h2>Contato</h2>
+            <div class="card">
+                <h3>Entre em Contato Conosco</h3>
+                <form action="#" method="post">
+                    <div class="form-group">
+                        <label for="nome">Nome:</label>
+                        <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">E-mail:</label>
+                        <input type="email" id="email" name="email" placeholder="Seu email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mensagem">Mensagem:</label>
+                        <textarea id="mensagem" name="mensagem" rows="5" placeholder="Sua mensagem" required></textarea>
+                    </div>
+                    <button type="submit">Enviar</button>
+                </form>
+                <div class="card">
+                    <h3>Informações de Contato</h3>
+                    <p><strong>Endereço:</strong> Avenida Presidente Getulio - Alvorada - RS</p>
+                    <p><strong>Telefone:</strong> +55 (11) 1234-5678</p>
+                    <p><strong>E-mail:</strong> contato@viajenslasvegas.com.br</p>
+                </div>
+            </div>
+
+            <!-- Formulário de Consulta de Preços -->
+            <section>
+                <h2>Consultar preços de ingressos para pontos turísticos:</h2>
+                <div id="resultado">
+                    <select id="cidade-italia">
+                        <option value="">Selecione um passeio</option>
+                        <option value="hollywood">Passeio por Hollywood</option>
+                        <option value="studios">Universal Studios Hollywood</option>
+                        <option value="observatorio">Observatório Griffith</option>
+                    </select>
+                    <button onclick="mostrarFormularioCompra()">Consultar preço</button>
+                </div>
+
+                <div id="compra" class="hidden">
+                    <p id="preco-passagem"></p>
+                    <label for="nome-compra">Nome Completo:</label>
+                    <input type="text" id="nome-compra" placeholder="Seu nome completo">
+                    <label for="email-compra">Email:</label>
+                    <input type="email" id="email-compra" placeholder="Seu email">
+                    <button onclick="confirmarCompra()">Confirmar Compra</button>
+                    <div id="mensagem-compra"></div>
+                </div>
+            </section>
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    let carousel = document.querySelector(".carousel");
+                    let items = carousel.querySelectorAll(".item");
+                    let dotsContainer = document.querySelector(".dots");
+
+                   
+                    items.forEach((_, index) => {
+                        let dot = document.createElement("span");
+                        dot.classList.add("dot");
+                        if (index === 0) dot.classList.add("active");
+                        dot.dataset.index = index;
+                        dotsContainer.appendChild(dot);
+                    });
+
+                    let dots = document.querySelectorAll(".dot");
+
+                    // Função para mostrar um item específico
+                    function showItem(index) {
+                        items.forEach((item, idx) => {
+                            item.classList.remove("active");
+                            dots[idx].classList.remove("active");
+                            if (idx === index) {
+                                item.classList.add("active");
+                                dots[idx].classList.add("active");
+                            }
+                        });
+                    }
+
+                    // Event listeners para botões
+                    document.querySelector(".prev").addEventListener("click", () => {
+                        let index = [...items].findIndex((item) =>
+                            item.classList.contains("active")
+                        );
+                        showItem((index - 1 + items.length) % items.length);
+                    });
+
+                    document.querySelector(".next").addEventListener("click", () => {
+                        let index = [...items].findIndex((item) =>
+                            item.classList.contains("active")
+                        );
+                        showItem((index + 1) % items.length);
+                    });
+
+                    // Event listeners para dots
+                    dots.forEach((dot) => {
+                        dot.addEventListener("click", () => {
+                            let index = parseInt(dot.dataset.index);
+                            showItem(index);
+                        });
+                    });
+                });
+
+                function mostrarFormularioCompra() {
+                    var LA = document.getElementById('cidade-italia').value;
+                    if (LA) {
+                        var preco;
+                        switch (LA) {
+                            case 'hollywood':
+                                preco = 'R$500,00';
+                                break;
+                            case 'studios':
+                                preco = 'R$700,00';
+                                break;
+                            case 'observatorio':
+                                preco = 'R$300,00';
+                                break;
+                        }
+                        document.getElementById('compra').classList.remove('hidden');
+                        document.getElementById('preco-passagem').textContent = 'O preço do ingresso para ' + LA.charAt(0).toUpperCase() + LA.slice(1) + ' é: ' + preco;
+                    } else {
+                        alert('Por favor, selecione um passeio em Los Angeles.');
+                    }
+                }
+
+                function confirmarCompra() {
+                    var nome = document.getElementById('nome-compra').value.trim();
+                    var email = document.getElementById('email-compra').value.trim();
+
+                    if (nome === '' || email === '') {
+                        alert('Por favor, preencha todos os dados.');
+                        return;
+                    }
+
+                    document.getElementById('mensagem-compra').textContent = 'Obrigado, ' + nome + '. Sua compra foi confirmada. Um e-mail com o comprovante será enviado para ' + email + '.';
+                }
+            </script>
+
+        </section>
+
+    </div>
+
+    <!-- Rodapé -->
+    <footer>
+        <p>&copy; 2024 Viajens Las Vegas. Todos os direitos reservados.</p>
+    </footer>
+
+</body>
+</html>
